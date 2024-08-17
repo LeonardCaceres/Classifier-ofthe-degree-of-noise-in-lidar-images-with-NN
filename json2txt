@@ -1,0 +1,33 @@
+import json
+from PIL import Image
+import os
+
+def json2txt(file_path):
+    path = f"C:/Users/Leona/PycharmProjects/pythonProject/IITP/Truck_DUST/All_labels_copy/{file_path}"
+    print(path)
+    with open(path, 'r', encoding='utf-8') as file:
+        data = json.load(file)
+    print(file_path)
+
+    for i in range(0,len(data['objects'])):
+        print(i)
+        if data['objects'][i]['type'] != 'rect':
+            continue
+        im_path = f'C:/Users/Leona/PycharmProjects/pythonProject/IITP/Truck_DUST/All_images/{file_path[:-9]}.png'
+        img = Image.open(im_path)
+        w = img.width
+        h = img.height
+        rect = data['objects'][i]['data']
+        x_c = rect[0] + rect[2] / 2
+        y_c = (rect[1] + rect[3] / 2)
+        widht = (abs(rect[2]))
+        height = (abs(rect[3]))
+        print(x_c, y_c, widht, height)
+        print(f'C:/Users/Leona/PycharmProjects/pythonProject/IITP/Truck_DUST/labels/{file_path[:-9]}.txt', '!!!!!')
+        with open(f'C:/Users/Leona/PycharmProjects/pythonProject/IITP/Truck_DUST/labels/{file_path[:-9]}.txt', 'a') as file:
+            file.write(f"{0} {x_c / w} {y_c / h} {widht / w} {height / h}\n")
+
+folder_path = r'C:/Users/Leona/PycharmProjects/pythonProject/IITP/Truck_DUST/All_labels_copy'
+
+for js in os.listdir(folder_path):
+    json2txt(js)
