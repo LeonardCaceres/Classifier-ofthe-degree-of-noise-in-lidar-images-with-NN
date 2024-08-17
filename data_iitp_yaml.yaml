@@ -1,0 +1,5 @@
+train: /content/drive/MyDrive/data_truck1500/images/train
+val: /content/drive/MyDrive/data_truck1500/images/val
+
+nc: 1
+names: ['dust']
